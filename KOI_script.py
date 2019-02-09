@@ -1,3 +1,9 @@
+"""
+A script to measure rotation periods for kepler stars in a dataframe. This
+version runs on my laptop.
+"""
+
+import os
 import starrotate as sr
 import starrotate.rotation_tools as rt
 import pandas as pd
@@ -6,12 +12,12 @@ import pandas as pd
 kane = pd.read_csv("kane_cks_tdmra_dr2.csv")
 
 for row in kane.iterrows():
-    print(row[0], "of", len(kane))
     star = row[1]
+    starname = str(int(star.kepid)).zfill(9)
+    print(row[0], "of", len(kane), "kepid = ", starname)
 
-    lcpath = "/Users/rangus/.kplr/data/lightcurves/{}".format(
-        str(int(star.kepid)).zfill(9))
-    time, flux, flux_err = rt.download_light_curves(star.kepid, lcpath)
+    lcpath = "data/lightcurves/{}".format(starname)
+    time, flux, flux_err = rt.download_light_curves(star.kepid, ".", lcpath)
 
     # Measure rotation period
     rotate = sr.RotationModel(time, flux, flux_err, star.kepid)
@@ -33,7 +39,7 @@ for row in kane.iterrows():
     star["acf_period"] = acf_period
     star["ls_period"] = ls_period
 
-    star.to_csv("{}_results.csv".format(str(int(star.kepid)).zfill(9)))
+    star.to_csv("{}_results.csv".format(starname))
 
     # header = False
     # if row[0] == 0:

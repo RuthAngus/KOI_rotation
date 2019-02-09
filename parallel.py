@@ -17,11 +17,10 @@ sys.path.append(os.getcwd())
 
 def measure_prot(row):
     star = row[1]
+    starname = str(int(star.kepid)).zfill(9)
 
-    lcpath = "lightcurves/{}".format(str(int(star.kepid)).zfill(9))
-    if not os.path.exists(lcpath):
-        os.makedirs(lcpath)
-    time, flux, flux_err = rt.download_light_curves(star.kepid, lcpath)
+    lcpath = "data/lightcurves/{}".format(starname)
+    time, flux, flux_err = rt.download_light_curves(star.kepid, ".", lcpath)
 
     # Measure rotation period
     rotate = sr.RotationModel(time, flux, flux_err, star.kepid)
