@@ -2,7 +2,8 @@
 A parallel script to run on the cluster.
 """
 
-
+import os
+import sys
 import starrotate as sr
 import starrotate.rotation_tools as rt
 import pandas as pd
