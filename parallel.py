@@ -4,6 +4,7 @@ A parallel script to run on the cluster.
 
 import os
 import sys
+import numpy as np
 import starrotate as sr
 import starrotate.rotation_tools as rt
 import pandas as pd
@@ -48,7 +49,8 @@ def measure_prot(row):
 if __name__ == "__main__":
 
     # Load Stephen Kane's catalogue.
-    df = pd.read_csv("kane_cks_tdmra_dr2.csv")
+    full_df = pd.read_csv("kane_cks_tdmra_dr2.csv")
+    df = full_df.drop_duplicates(subset="kepid")
 
     df = df.iloc[:24]
     assert len(df.kepid) == len(np.unique(df.kepid))
