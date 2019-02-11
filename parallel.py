@@ -23,14 +23,13 @@ def measure_prot(row):
     time, flux, flux_err = rt.download_light_curves(df.kepid, ".", lcpath)
 
     # Measure rotation period
-    rotate = sr.RotationModel(time, flux, flux_err, df.kepid, plot=True)
+    rotate = sr.RotationModel(time, flux, flux_err, starname, plot=True)
     t0, dur, porb = df.koi_time0, df.koi_duration, df.koi_period
-    gp_stuff, ls_period, acf_period = rotate.measure_rotation_period(
-        t0, dur, porb)
+    rotate.process_light_curve(t0, dur, porb)
+    gp_stuff = rotate.GP_rotation()
+    lc_period = rotate.LS_rotation
+    acf_period = rotate.ACF_rotation
     gp_period, errp, errm, Q, Qerrp, Qerrm = gp_stuff
-
-    print("gp_period = ", gp_period, "LS period = ", ls_period,
-          "acf period = ", acf_period)
 
     # Save results
     df["gp_period"] = gp_period
