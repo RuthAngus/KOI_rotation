@@ -27,8 +27,8 @@ def measure_prot(row):
     t0, dur, porb = df.koi_time0, df.koi_duration, df.koi_period
     rotate.process_light_curve(t0, dur, porb)
 
-    ls_period = rotate.LS_rotation
-    acf_period = rotate.ACF_rotation
+    ls_period = rotate.LS_rotation()
+    acf_period = rotate.ACF_rotation()
     gp_stuff = rotate.GP_rotation(init_period=ls_period)
     gp_period, errp, errm, Q, Qerrp, Qerrm = gp_stuff
 
