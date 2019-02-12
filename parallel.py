@@ -23,8 +23,10 @@ def measure_prot(row):
     time, flux, flux_err = rt.download_light_curves(df.kepid, ".", lcpath)
 
     # Measure rotation period
+    kepler_time_offset = 2454833.0
     rotate = sr.RotationModel(time, flux, flux_err, starname, plot=True)
-    t0, dur, porb = df.koi_time0, df.koi_duration, df.koi_period
+    t0, dur, porb = df.koi_time0 - kepler_time_offset, df.koi_duration, \
+        df.koi_period
     rotate.process_light_curve(t0, dur, porb)
 
     ls_period = rotate.LS_rotation()
